@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://aurabroadbeach.com.au/sitemap.xml
