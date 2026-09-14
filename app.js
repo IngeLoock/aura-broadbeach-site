@@ -83,9 +83,8 @@
   (function () {
     var v = document.getElementById('heroVideo');
     if (!v || reduce) return;
-    if (window.matchMedia('(max-width: 760px)').matches) return;      /* keep mobile data light */
     var c = navigator.connection;
-    if (c && (c.saveData || /2g/.test(c.effectiveType || ''))) return;
+    if (c && (c.saveData || /2g/.test(c.effectiveType || ''))) return;   /* respect data saver only */
     function load() {
       v.querySelectorAll('source').forEach(function (s) { s.src = s.dataset.src; });
       v.load();
@@ -95,8 +94,7 @@
         if (p && p.catch) p.catch(function () { v.classList.remove('ready'); });
       }, { once: true });
     }
-    if ('requestIdleCallback' in window) requestIdleCallback(load, { timeout: 1800 });
-    else setTimeout(load, 900);
+    load();
     /* stop decoding while the hero is off screen */
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(function (e) {
