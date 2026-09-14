@@ -257,3 +257,95 @@ footer.site{border-top:1px solid var(--line-soft); padding-block:clamp(48px,6vw,
   text-transform:uppercase; color:#0b0b0d; background:var(--metal-2);
   padding:3px 9px; border-radius:2px; vertical-align:middle;
 }
+
+/* ============================================================
+   SCROLL CHOREOGRAPHY
+   Hero pins and recedes, the page slides up over it,
+   the logo hands off from hero to nav.
+   ============================================================ */
+
+/* Lenis */
+html.lenis,html.lenis body{height:auto;}
+.lenis:not(.lenis-autoToggle).lenis-stopped{overflow:clip;}
+
+/* ---- hero pin ---- */
+.hero{
+  position:sticky; top:0; z-index:0;
+  will-change:transform,opacity;
+}
+.hero-inner{
+  will-change:transform,opacity;
+  transform:translate3d(0,calc(var(--hp,0) * -46px),0) scale(calc(1 - var(--hp,0) * 0.085));
+  opacity:calc(1 - var(--hp,0) * 1.25);
+}
+.hero-bg img{
+  will-change:transform;
+  transform:scale(calc(1 + var(--hp,0) * 0.14));
+}
+.scroll-cue{opacity:calc(1 - var(--hp,0) * 2.4); pointer-events:none;}
+
+/* ---- the page rides up over the hero ---- */
+#main > section:first-of-type,
+main > section.band-tight:first-of-type{
+  position:relative; z-index:2;
+  margin-top:-34px;
+  border-radius:30px 30px 0 0;
+  background:var(--void);
+  box-shadow:0 -30px 60px rgba(0,0,0,.55);
+}
+main > section:not(.hero) ~ section, footer.site{position:relative; z-index:2;}
+main > section:not(.hero){background-color:var(--void);}
+main > section.bg-ink-band{background-color:var(--ink);}
+@media (max-width:640px){
+  #main > section:first-of-type,
+  main > section.band-tight:first-of-type{margin-top:-24px; border-radius:22px 22px 0 0;}
+}
+
+/* ---- nav logo hand-off ---- */
+.nav-logo{
+  display:block;
+  opacity:var(--navlogo,0);
+  transform:translate3d(0,calc((1 - var(--navlogo,0)) * 10px),0);
+  transition:opacity .45s var(--ease), transform .45s var(--ease);
+  will-change:opacity,transform;
+}
+.nav-logo.always{opacity:1; transform:none;}
+
+/* ---- staggered reveals ---- */
+.rv{
+  opacity:0;
+  transform:translate3d(0,34px,0);
+  transition:opacity 1s var(--ease), transform 1.15s var(--ease);
+  transition-delay:var(--d,0ms);
+  will-change:opacity,transform;
+}
+.rv.on{opacity:1; transform:none;}
+
+/* children stagger inside a revealed block */
+.stagger.on > *{animation:rise 1s var(--ease) both;}
+.stagger.on > *:nth-child(1){animation-delay:.04s;}
+.stagger.on > *:nth-child(2){animation-delay:.12s;}
+.stagger.on > *:nth-child(3){animation-delay:.2s;}
+.stagger.on > *:nth-child(4){animation-delay:.28s;}
+.stagger.on > *:nth-child(5){animation-delay:.36s;}
+.stagger.on > *:nth-child(6){animation-delay:.44s;}
+@keyframes rise{from{opacity:0; transform:translate3d(0,26px,0);} to{opacity:1; transform:none;}}
+
+/* headline lines lift in */
+.lift{display:block; overflow:hidden;}
+.lift > span{
+  display:block;
+  transform:translate3d(0,105%,0);
+  transition:transform 1.05s var(--ease);
+  transition-delay:var(--d,0ms);
+}
+.on .lift > span, .lift.on > span{transform:none;}
+
+@media (prefers-reduced-motion:reduce){
+  .hero{position:relative;}
+  .hero-inner,.hero-bg img{transform:none; opacity:1;}
+  .rv,.lift > span{opacity:1; transform:none; transition:none;}
+  .stagger.on > *{animation:none;}
+  .nav-logo{opacity:1; transform:none;}
+  .scroll-cue{opacity:1;}
+}
