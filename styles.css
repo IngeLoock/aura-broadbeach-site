@@ -31,7 +31,7 @@
 
 *,*::before,*::after{box-sizing:border-box;}
 html{scroll-padding-top:80px; -webkit-text-size-adjust:100%;}
-html.no-js{scroll-behavior:smooth;}
+
 
 
 body{
@@ -119,7 +119,14 @@ section{position:relative;}
   padding:120px var(--pad) 64px; overflow:hidden;
 }
 .hero-bg{position:absolute; inset:0; z-index:0;}
-.hero-bg img{width:100%; height:100%; object-fit:cover; opacity:.58;}
+.hero-bg img,.hero-bg video{
+  position:absolute; inset:0;
+  width:100%; height:100%; object-fit:cover;
+}
+.hero-bg img{opacity:.58;}
+.hero-video{opacity:0; transition:opacity 1.4s var(--ease);}
+.hero-video.ready{opacity:.5;}
+.hero-video.ready ~ img,.hero-bg:has(.hero-video.ready) img{opacity:0;}
 .hero-bg::after{
   content:""; position:absolute; inset:0;
   background:
@@ -277,7 +284,7 @@ html.lenis,html.lenis body{height:auto;}
   transform:translate3d(0,calc(var(--hp,0) * -46px),0) scale(calc(1 - var(--hp,0) * 0.085));
   opacity:calc(1 - var(--hp,0) * 1.25);
 }
-.hero-bg img{
+.hero-bg img,.hero-bg video{
   transform:scale(calc(1 + var(--hp,0) * 0.10));
 }
 .scroll-cue{opacity:calc(1 - var(--hp,0) * 2.4); pointer-events:none;}
@@ -302,12 +309,15 @@ main > section.bg-ink-band{background-color:var(--ink);}
 /* ---- nav logo hand-off ---- */
 .nav-logo{
   display:block;
-  opacity:var(--navlogo,0);
-  transform:translate3d(0,calc((1 - var(--navlogo,0)) * 10px),0);
-  transition:opacity .45s var(--ease), transform .45s var(--ease);
-  will-change:opacity,transform;
+  /* faintly there at rest, lifts to full metallic as you scroll */
+  opacity:calc(0.32 + var(--navlogo,0) * 0.68);
+  filter:saturate(calc(0.15 + var(--navlogo,0) * 0.85))
+         brightness(calc(0.72 + var(--navlogo,0) * 0.28));
+  transform:translate3d(0,calc((1 - var(--navlogo,0)) * 4px),0);
+  transition:opacity .5s var(--ease), filter .5s var(--ease), transform .5s var(--ease);
 }
-.nav-logo.always{opacity:1; transform:none;}
+.nav-logo:hover{opacity:1; filter:none;}
+.nav-logo.always{opacity:1; filter:none; transform:none;}
 
 /* ---- staggered reveals ---- */
 .rv{
@@ -339,10 +349,11 @@ main > section.bg-ink-band{background-color:var(--ink);}
 .on .lift > span, .lift.on > span{transform:none;}
 
 @media (prefers-reduced-motion:reduce){
+  .hero-video{display:none;}
   .hero{position:relative;}
   .hero-inner,.hero-bg img{transform:none; opacity:1;}
   .rv,.lift > span{opacity:1; transform:none; transition:none;}
   .stagger.on > *{animation:none;}
-  .nav-logo{opacity:1; transform:none;}
+  .nav-logo{opacity:1; filter:none; transform:none;}
   .scroll-cue{opacity:1;}
 }
