@@ -9,6 +9,7 @@
   --ink:#0d0d10;
   --panel:#121216;
   --smoke:#1a1a1f;
+  --ink-lift:#141417;
 
   --champagne:#e8dcc4;
   --champagne-dim:#b0a488;
@@ -295,11 +296,13 @@ main > section.band-tight:first-of-type{
   position:relative; z-index:2;
   margin-top:-34px;
   border-radius:30px 30px 0 0;
-  background:var(--void);
+  background:var(--ink-lift);
   box-shadow:0 -30px 60px rgba(0,0,0,.55);
 }
 main > section:not(.hero) ~ section, footer.site{position:relative; z-index:2;}
 main > section:not(.hero){background-color:var(--void);}
+#main > section:first-of-type,
+main > section.band-tight:first-of-type{background-color:var(--ink-lift);}
 main > section.bg-ink-band{background-color:var(--ink);}
 @media (max-width:640px){
   #main > section:first-of-type,
@@ -310,9 +313,9 @@ main > section.bg-ink-band{background-color:var(--ink);}
 .nav-logo{
   display:block;
   /* faintly there at rest, lifts to full metallic as you scroll */
-  opacity:calc(0.32 + var(--navlogo,0) * 0.68);
-  filter:saturate(calc(0.15 + var(--navlogo,0) * 0.85))
-         brightness(calc(0.72 + var(--navlogo,0) * 0.28));
+  opacity:calc(0.55 + var(--navlogo,0) * 0.45);
+  filter:saturate(calc(0.35 + var(--navlogo,0) * 0.65))
+         brightness(calc(0.88 + var(--navlogo,0) * 0.12));
   transform:translate3d(0,calc((1 - var(--navlogo,0)) * 4px),0);
   transition:opacity .5s var(--ease), filter .5s var(--ease), transform .5s var(--ease);
 }
