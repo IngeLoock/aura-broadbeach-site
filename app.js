@@ -9,10 +9,10 @@
   function startLenis() {
     if (reduce || !window.Lenis) return null;
     var lenis = new window.Lenis({
-      duration: 1.15,
-      easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); },
+      lerp: 0.12,
+      wheelMultiplier: 1,
       smoothWheel: true,
-      touchMultiplier: 1.6
+      syncTouch: false
     });
     function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
     requestAnimationFrame(raf);
@@ -43,7 +43,7 @@
 
     if (hero && !reduce) {
       var h = hero.offsetHeight || window.innerHeight;
-      var p = Math.min(1, Math.max(0, y / (h * 0.85)));
+      var p = Math.min(1, Math.max(0, y / h));
       root.style.setProperty('--hp', p.toFixed(4));
       /* logo hands off from hero to nav once the hero is half gone */
       if (navLogo && !navLogo.classList.contains('always')) {
