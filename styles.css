@@ -357,3 +357,15 @@ main > section.bg-ink-band{background-color:var(--ink);}
   .nav-logo{opacity:1; filter:none; transform:none;}
   .scroll-cue{opacity:1;}
 }
+
+/* ---------- footer contact icons ---------- */
+.foot a.with-ico{display:flex; align-items:center; gap:11px;}
+.foot a.with-ico svg{
+  width:15px; height:15px; flex:0 0 15px;
+  fill:none; stroke:var(--metal-2); stroke-width:1.5;
+  stroke-linecap:round; stroke-linejoin:round;
+  transition:stroke .3s var(--ease), transform .3s var(--ease);
+}
+.foot a.with-ico:hover svg{stroke:var(--champagne); transform:translateY(-1px);}
+.foot a.with-ico svg .fillbit{fill:var(--metal-2); stroke:none; transition:fill .3s var(--ease);}
+.foot a.with-ico:hover svg .fillbit{fill:var(--champagne);}
