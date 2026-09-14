@@ -8,12 +8,7 @@
   /* ---------- 1. Smooth scroll (Lenis) ---------- */
   function startLenis() {
     if (reduce || !window.Lenis) return null;
-    var lenis = new window.Lenis({
-      lerp: 0.12,
-      wheelMultiplier: 1,
-      smoothWheel: true,
-      syncTouch: false
-    });
+    var lenis = new window.Lenis({ lerp: 0.12, wheelMultiplier: 1, smoothWheel: true, syncTouch: false });
     function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
     requestAnimationFrame(raf);
     document.querySelectorAll('a[href^="#"]').forEach(function (a) {
@@ -83,4 +78,30 @@
     }, { threshold: 0.08, rootMargin: '0px 0px -8% 0px' });
     els.forEach(function (e) { io.observe(e); });
   }
+
+  /* ---------- 4. Hero video: desktop only, load after the page settles ---------- */
+  (function () {
+    var v = document.getElementById('heroVideo');
+    if (!v || reduce) return;
+    if (window.matchMedia('(max-width: 760px)').matches) return;      /* keep mobile data light */
+    var c = navigator.connection;
+    if (c && (c.saveData || /2g/.test(c.effectiveType || ''))) return;
+    function load() {
+      v.querySelectorAll('source').forEach(function (s) { s.src = s.dataset.src; });
+      v.load();
+      v.addEventListener('canplay', function () {
+        v.classList.add('ready');
+        var p = v.play();
+        if (p && p.catch) p.catch(function () { v.classList.remove('ready'); });
+      }, { once: true });
+    }
+    if ('requestIdleCallback' in window) requestIdleCallback(load, { timeout: 1800 });
+    else setTimeout(load, 900);
+    /* stop decoding while the hero is off screen */
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (e) {
+        e[0].isIntersecting ? v.play().catch(function(){}) : v.pause();
+      }, { threshold: 0.01 }).observe(v);
+    }
+  })();
 })();
