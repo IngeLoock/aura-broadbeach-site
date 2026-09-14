@@ -372,3 +372,24 @@ main > section.bg-ink-band{background-color:var(--ink);}
 .foot a.with-ico:hover svg{stroke:var(--champagne); transform:translateY(-1px);}
 .foot a.with-ico svg .fillbit{fill:var(--metal-2); stroke:none; transition:fill .3s var(--ease);}
 .foot a.with-ico:hover svg .fillbit{fill:var(--champagne);}
+
+/* ---------- header Book Now ---------- */
+.nav-cta{
+  margin-left:clamp(4px,1.4vw,16px);
+  padding:12px 24px;
+  font-size:10.5px; letter-spacing:0.22em;
+  opacity:1 !important;
+  border:1px solid rgba(236,233,227,0.5);
+  color:var(--text);
+  border-radius:0;
+}
+.nav-cta:hover,.nav-cta:focus-visible{
+  background:var(--champagne); color:#0b0b0d; border-color:var(--champagne);
+}
+.nav-links a.nav-cta{opacity:1;}
+@media (max-width:560px){
+  .nav-cta{padding:10px 15px; font-size:9.5px; letter-spacing:0.14em;}
+  .nav{gap:10px; padding-inline:18px;}
+  .nav-links{gap:14px;}
+  .nav-logo img{width:78px;}
+}
