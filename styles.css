@@ -6,22 +6,33 @@
 
 :root{
   --void:#08080a;
-  --ink:#0d0d10;
-  --panel:#121216;
-  --smoke:#1a1a1f;
-  --ink-lift:#141417;
+  --ink:#101416;
+  --panel:#12171a;
+  --smoke:#182023;
+  --ink-lift:#131a1c;
 
-  --champagne:#e8dcc4;
-  --champagne-dim:#b0a488;
-  --metal-1:#f3ece0;
-  --metal-2:#c3b493;
-  --metal-3:#8d8068;
+  /* primary accent: sampled from the venue's own logo glow, hue 180 */
+  --teal-lift:#6fd2d0;   /* type, hairlines, icons  — 11.8:1 on void */
+  --teal:#0fa39f;        /* solid fills only        —  6.4:1 with void text */
+  --teal-glow:#0e7c7b;   /* atmosphere only, never a flat fill */
+  --white:#f7fbfb;       /* headlines and logo */
 
-  --text:#ece9e3;
-  --muted:#8f8a81;
-  --faint:#5d594f;
-  --line:rgba(232,220,196,0.14);
-  --line-soft:rgba(232,220,196,0.07);
+  /* rare accent: booths and bottle service only */
+  --gold:#e8dcc4;
+  --gold-dim:#b0a488;
+
+  /* legacy aliases, kept so nothing breaks */
+  --champagne:var(--gold);
+  --champagne-dim:var(--gold-dim);
+  --metal-1:var(--white);
+  --metal-2:var(--teal-lift);
+  --metal-3:var(--teal);
+
+  --text:#e6ecec;
+  --muted:#8b9a9a;
+  --faint:#5f6d6d;
+  --line:rgba(111,210,208,0.16);
+  --line-soft:rgba(111,210,208,0.08);
 
   --display:'Jost',-apple-system,'Helvetica Neue',Arial,sans-serif;
   --body:'Inter',-apple-system,'Helvetica Neue',Arial,sans-serif;
@@ -52,7 +63,7 @@ body::after{
 
 /* ---------- type ---------- */
 h1,h2,h3,h4{
-  font-family:var(--display); font-weight:200; margin:0;
+  font-family:var(--display); font-weight:200; margin:0; color:var(--white);
   text-transform:uppercase; line-height:1.02; letter-spacing:0.06em;
 }
 h1{font-size:clamp(50px,11vw,116px); letter-spacing:0.09em;}
@@ -67,7 +78,7 @@ p{margin:0;}
 }
 .lead{font-size:clamp(17px,1.5vw,19px); color:var(--muted); line-height:1.75; max-width:62ch;}
 .metal{
-  background:linear-gradient(168deg,var(--metal-1) 0%,var(--metal-2) 42%,var(--metal-3) 62%,var(--metal-1) 100%);
+  background:linear-gradient(166deg,var(--white) 0%,var(--white) 30%,#dcefee 48%,#c7e6e4 58%,var(--white) 78%,var(--white) 100%);
   -webkit-background-clip:text; background-clip:text; color:transparent;
 }
 .rule{height:1px; background:var(--line); border:0; margin:0;}
@@ -93,7 +104,7 @@ section{position:relative;}
   text-decoration:none; color:var(--text); opacity:.68; transition:opacity .3s var(--ease); white-space:nowrap;
 }
 .nav-links a:hover,.nav-links a:focus-visible,.nav-links a[aria-current]{opacity:1;}
-.nav-links a[aria-current]{color:var(--champagne);}
+.nav-links a[aria-current]{color:var(--teal-lift);}
 @media (max-width:760px){
   .nav-links .hide-sm{display:none;}
 }
@@ -107,11 +118,11 @@ section{position:relative;}
   background:transparent; transition:background .4s var(--ease), color .4s var(--ease), border-color .4s var(--ease);
   cursor:pointer; white-space:nowrap;
 }
-.btn:hover,.btn:focus-visible{background:var(--champagne); color:#0b0b0d; border-color:var(--champagne);}
-.btn-solid{background:var(--champagne); color:#0b0b0d; border-color:var(--champagne);}
-.btn-solid:hover,.btn-solid:focus-visible{background:transparent; color:var(--champagne);}
+.btn:hover,.btn:focus-visible{background:var(--teal); color:var(--void); border-color:var(--teal);}
+.btn-solid{background:var(--teal); color:var(--void); border-color:var(--teal);}
+.btn-solid:hover,.btn-solid:focus-visible{background:transparent; color:var(--teal-lift); border-color:var(--teal-lift);}
 .btn-sm{padding:12px 22px; font-size:10.5px; letter-spacing:0.22em;}
-:focus-visible{outline:2px solid var(--champagne); outline-offset:3px;}
+:focus-visible{outline:2px solid var(--teal-lift); outline-offset:3px;}
 
 /* ---------- hero ---------- */
 .hero{
@@ -138,7 +149,7 @@ section{position:relative;}
 .hero-logo{width:clamp(210px,30vw,430px);}
 .hero-sub{
   font-family:var(--display); font-size:clamp(11px,1.3vw,13px); font-weight:300;
-  letter-spacing:0.46em; text-transform:uppercase; color:var(--metal-2);
+  letter-spacing:0.46em; text-transform:uppercase; color:var(--white);
 }
 .hero-nights{
   font-family:var(--display); font-size:clamp(10.5px,1.15vw,12.5px); font-weight:300;
@@ -151,7 +162,7 @@ section{position:relative;}
   font-family:var(--display); font-size:9.5px; letter-spacing:0.4em; text-transform:uppercase;
   color:var(--faint); text-decoration:none; display:flex; flex-direction:column; align-items:center; gap:9px;
 }
-.scroll-cue span{display:block; width:1px; height:38px; background:linear-gradient(var(--metal-3),transparent); animation:drop 2.6s var(--ease) infinite;}
+.scroll-cue span{display:block; width:1px; height:38px; background:linear-gradient(var(--teal),transparent); animation:drop 2.6s var(--ease) infinite;}
 @keyframes drop{0%,100%{opacity:.3; transform:scaleY(.55); transform-origin:top;}50%{opacity:1; transform:scaleY(1);}}
 @media (prefers-reduced-motion:reduce){.scroll-cue span{animation:none;}}
 
@@ -250,7 +261,7 @@ footer.site{border-top:1px solid var(--line-soft); padding-block:clamp(48px,6vw,
 .foot img{width:132px; margin-bottom:20px;}
 .foot h4{color:var(--metal-2); margin-bottom:14px;}
 .foot a{color:var(--muted); text-decoration:none; font-size:14.5px; display:block; padding:4px 0; transition:color .3s var(--ease);}
-.foot a:hover{color:var(--champagne);}
+.foot a:hover{color:var(--teal-lift);}
 .foot p{color:var(--muted); font-size:14.5px;}
 .colophon{
   display:flex; flex-wrap:wrap; gap:10px 26px; justify-content:space-between;
@@ -366,9 +377,9 @@ main > section.bg-ink-band{background-color:var(--ink);}
   stroke-linecap:round; stroke-linejoin:round;
   transition:stroke .3s var(--ease), transform .3s var(--ease);
 }
-.foot a.with-ico:hover svg{stroke:var(--champagne); transform:translateY(-1px);}
+.foot a.with-ico:hover svg{stroke:var(--white); transform:translateY(-1px);}
 .foot a.with-ico svg .fillbit{fill:var(--metal-2); stroke:none; transition:fill .3s var(--ease);}
-.foot a.with-ico:hover svg .fillbit{fill:var(--champagne);}
+.foot a.with-ico:hover svg .fillbit{fill:var(--white);}
 
 /* ---------- header Book Now ---------- */
 .nav-cta{
@@ -381,7 +392,7 @@ main > section.bg-ink-band{background-color:var(--ink);}
   border-radius:0;
 }
 .nav-cta:hover,.nav-cta:focus-visible{
-  background:var(--champagne); color:#0b0b0d; border-color:var(--champagne);
+  background:var(--teal); color:var(--void); border-color:var(--teal);
 }
 .nav-links a.nav-cta{opacity:1;}
 @media (max-width:560px){
@@ -417,4 +428,35 @@ main > section.bg-ink-band{background-color:var(--ink);}
   }
   .head{max-width:100%;}
   .lead, .card p, .row .d{max-width:100%;}
+}
+
+
+/* ============================================================
+   GOLD, USED RARELY
+   Booths and bottle service only. Gold and teal never touch:
+   where both appear in a section, one is a hairline and the
+   other is type.
+   ============================================================ */
+.eyebrow.gold,
+.card .cap.gold{color:var(--gold);}
+
+/* ============================================================
+   THE GLOW
+   The logo in Aura's own artwork sits inside a soft teal bloom.
+   Built as light (screen blend), not paint. Twice on a page is
+   atmosphere; more is a theme park.
+   ============================================================ */
+.hero-glow{
+  position:absolute; inset:0; z-index:0; pointer-events:none;
+  mix-blend-mode:screen;
+  background:radial-gradient(ellipse 48% 40% at 50% 43%, rgba(14,124,123,0.62), transparent 68%);
+  opacity:calc(1 - var(--hp,0) * 0.9);
+}
+.feature .feature-glow{
+  position:absolute; inset:0; z-index:0; pointer-events:none;
+  mix-blend-mode:screen;
+  background:radial-gradient(ellipse 60% 70% at 72% 40%, rgba(14,124,123,0.3), transparent 72%);
+}
+@media (prefers-reduced-motion:reduce){
+  .hero-glow{opacity:1;}
 }
