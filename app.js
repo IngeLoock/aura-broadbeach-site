@@ -83,10 +83,28 @@
   (function () {
     var v = document.getElementById('heroVideo');
     if (!v || reduce) return;
-    var c = navigator.connection;
-    if (c && (c.saveData || /2g/.test(c.effectiveType || ''))) return;   /* respect data saver only */
+
+    var c = navigator.connection || {};
+    var type = c.effectiveType || '';
+    if (c.saveData || /slow-2g|^2g$/.test(type)) return;      /* data saver and very slow links get the poster only */
+
+    /* phones get a much lighter encode: 854x480 at about a third of the weight */
+    var small = window.matchMedia('(max-width: 860px)').matches;
+    var webm  = small ? v.dataset.webmSm : v.dataset.webm;
+    var mp4   = small ? v.dataset.mp4Sm  : v.dataset.mp4;
+
+    function src(url, type) {
+      var el = document.createElement('source');
+      el.src = url; el.type = type;
+      v.appendChild(el);
+    }
+
     function load() {
-      v.querySelectorAll('source').forEach(function (s) { s.src = s.dataset.src; });
+      if (v.dataset.loaded) return;
+      v.dataset.loaded = '1';
+      src(webm, 'video/webm');
+      src(mp4,  'video/mp4');
+      v.preload = 'auto';
       v.load();
       v.addEventListener('canplay', function () {
         v.classList.add('ready');
@@ -94,11 +112,24 @@
         if (p && p.catch) p.catch(function () { v.classList.remove('ready'); });
       }, { once: true });
     }
-    load();
+
+    /* on a phone, let the poster and the type paint first so the hero is never blank */
+    if (small) {
+      var kick = function () {
+        if (window.requestIdleCallback) requestIdleCallback(load, { timeout: 1200 });
+        else setTimeout(load, 200);
+      };
+      if (document.readyState === 'complete') kick();
+      else window.addEventListener('load', kick, { once: true });
+    } else {
+      load();
+    }
+
     /* stop decoding while the hero is off screen */
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(function (e) {
-        e[0].isIntersecting ? v.play().catch(function(){}) : v.pause();
+        if (!e[0].isIntersecting) { v.pause(); return; }
+        if (v.dataset.loaded) v.play().catch(function () {});
       }, { threshold: 0.01 }).observe(v);
     }
   })();
