@@ -399,9 +399,10 @@ main > section.bg-ink-band{background-color:var(--ink);}
 }
 .nav-links a.nav-cta{opacity:1;}
 @media (max-width:560px){
-  .nav-cta{padding:10px 15px; font-size:9.5px; letter-spacing:0.14em;}
+  .nav-cta{padding:10px 13px; font-size:9.5px; letter-spacing:0.1em; margin-left:10px;}
+  .nav-links a{letter-spacing:0.18em;}
   .nav{gap:10px; padding-inline:18px;}
-  .nav-links{gap:14px;}
+  .nav-links{gap:19px;}
   .nav-logo img{width:78px;}
 }
 
@@ -477,3 +478,11 @@ main > section.bg-ink-band{background-color:var(--ink);}
 }
 .band-void{background:var(--void);}
 footer.site{background:var(--void);}
+
+
+/* the hero statement breaks after "Late" on phones so "room" never sits alone */
+.br-sm{display:none;}
+@media (max-width:560px){
+  .br-sm{display:block;}
+  .hero-sub{text-wrap:initial;}
+}
